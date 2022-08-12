@@ -1,0 +1,172 @@
+C51 COMPILER V9.54   MAIN                                                                  08/10/2022 12:48:04 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: d:\my file\download\C51\BIN\C51.EXE ..\source\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #define _MAIN_C
+   2          #include "main.h"
+   3          #include "mima.h"
+   4          #include "time.h"
+   5          #include "lcd.h"
+   6          
+   7          
+   8          void main()
+   9          {
+  10   1        uchar StartStr[]={"Enter the password:"};
+  11   1        uchar passwordStr[]={"------"};
+  12   1        uchar correctStr[]={"Correct Password"};
+  13   1        uchar wrongStr[]={"Wrong Password"};
+  14   1        uchar n;
+  15   1        uchar k=0,g=0,h=0,i=0;
+  16   1        DU=0;
+  17   1        WE=0;
+  18   1        time0_Init();//定时器初始化
+  19   1        EA=0;
+  20   1        
+  21   1        while(1)
+  22   1        { 
+  23   2          if(h==0)
+  24   2          {
+  25   3            Init_LCD1602();//LCD1602初始化
+  26   3            LCD1602_Dis_Str(0,0,StartStr);
+  27   3            LCD1602_Dis_Str(0,1,passwordStr);
+  28   3            h=1;
+  29   3          }
+  30   2          keyscan();
+  31   2          shumima();
+  32   2          yanzheng();
+  33   2          if(allow)
+  34   2          {
+  35   3            if(k==0)
+  36   3            {
+  37   4            Init_LCD1602();
+  38   4            delay(5);
+  39   4            LCD1602_Dis_Str(0,0,correctStr);
+  40   4            }
+  41   3            k=1;
+  42   3            if(S2==0)
+  43   3            {
+  44   4              delay(20);
+  45   4              if(S2==0)
+  46   4              {
+  47   5              EA=1;
+  48   5              timer1=12;
+  49   5              count=0;
+  50   5              delay1s();
+  51   5              EA=0;
+  52   5                while(!S2);
+  53   5              }
+  54   4            }
+C51 COMPILER V9.54   MAIN                                                                  08/10/2022 12:48:04 PAGE 2   
+
+  55   3            if(S3==0)
+  56   3            {
+  57   4              delay(20);
+  58   4              if(S3==0)
+  59   4              {
+  60   5              EA=1;
+  61   5              timer1=5;
+  62   5              count=0;
+  63   5              delay1s();
+  64   5              EA=0;
+  65   5                while(!S3);
+  66   5              }
+  67   4            }
+  68   3            if(!genggai)
+  69   3              wanbi=0;
+  70   3          }
+  71   2          if(wanbi==1&&allow==0)
+  72   2          {
+  73   3            if(i==0)
+  74   3            {
+  75   4            Init_LCD1602();
+  76   4            delay(5);
+  77   4            LCD1602_Dis_Str(0,0,wrongStr);
+  78   4            i=1;
+  79   4            }
+  80   3          }
+  81   2          if(genggai)
+  82   2          {
+  83   3            if(allow)
+  84   3            {  
+  85   4              if(g==0)
+  86   4              {
+  87   5              Init_LCD1602();
+  88   5              LCD1602_Dis_Str(0,0,StartStr);
+  89   5              for(n=0;n<6;n++)
+  90   5                exStr[n]='-';
+  91   5              }
+  92   4              while(!wanbi)
+  93   4              {
+  94   5                
+  95   5                keyscan();
+  96   5                shumima();
+  97   5                if(retry|close)
+  98   5                { wanbi=1;
+  99   6                  break;
+ 100   6                }
+ 101   5                if(g==0)
+ 102   5                LCD1602_Dis_Str(0,1,exStr);
+ 103   5                g=1;
+ 104   5              }
+ 105   4            }
+ 106   3          }
+ 107   2          if(ok)
+ 108   2          { 
+ 109   3            ok=0; wei=0;
+ 110   3            genggai=0;
+ 111   3            for(n=0;n<6;n++)
+ 112   3            {
+ 113   4               oldStr[n]=newStr[n];
+ 114   4              exStr[n]='-';
+ 115   4            }
+ 116   3          }
+C51 COMPILER V9.54   MAIN                                                                  08/10/2022 12:48:04 PAGE 3   
+
+ 117   2          if(retry)
+ 118   2          {
+ 119   3          retry=0; wei=0;wanbi=0;
+ 120   3          for(n=0;n<6;n++)
+ 121   3            {
+ 122   4               oldStr[n]='0';
+ 123   4              exStr[n]='-';
+ 124   4            }   
+ 125   3          }
+ 126   2          if(close)
+ 127   2          {
+ 128   3            close=0;genggai=0;
+ 129   3            wei=0;  wanbi=0;
+ 130   3            allow=0;g=0;k=0;
+ 131   3            h=0;i=0;
+ 132   3            for(n=0;n<6;n++)
+ 133   3            {
+ 134   4               newStr[n]='0';
+ 135   4              exStr[n]='-';
+ 136   4            }
+ 137   3            
+ 138   3          }
+ 139   2        }
+ 140   1      }
+ 141          
+ 142          
+ 143          
+ 144          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    469    ----
+   CONSTANT SIZE    =     59    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      64
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

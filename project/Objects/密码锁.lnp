@@ -1,0 +1,6 @@
+".\Objects\main.obj",
+".\Objects\time.obj",
+".\Objects\mima.obj",
+".\Objects\lcd.obj" 
+TO ".\Objects\ÃÜÂëËø" 
+PRINT(".\Listings\ÃÜÂëËø.m51") RAMSIZE(256) 

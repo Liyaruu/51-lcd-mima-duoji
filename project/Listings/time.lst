@@ -1,0 +1,64 @@
+C51 COMPILER V9.54   TIME                                                                  08/10/2022 12:48:04 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE TIME
+OBJECT MODULE PLACED IN .\Objects\time.obj
+COMPILER INVOKED BY: d:\my file\download\C51\BIN\C51.EXE ..\source\time.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\time.lst) TABS(2) OBJECT(.\Objects\time.obj)
+
+line level    source
+
+   1          #include "time.h"
+   2          #include "main.h"
+   3          
+   4          uchar count=0;
+   5          uchar timer1;
+   6          
+   7          void delay1s()
+   8          {
+   9   1        uchar a,b,c;
+  10   1        for(c=167;c>0;c--)
+  11   1        for(b=171;b>0;b--)
+  12   1        for(a=16;a>0;a--);
+  13   1        _nop_();
+  14   1      }
+  15          
+  16          void time0_Init()
+  17          {
+  18   1         EA=1;
+  19   1        TMOD&=0x00;
+  20   1        TMOD|=0x01;
+  21   1        TH0=0xff;
+  22   1        TL0=0xa4;
+  23   1        ET0=1;
+  24   1        TR0=1;
+  25   1      }
+  26          
+  27          void time0Init() interrupt 1
+  28          {
+  29   1       TR0=0;
+  30   1        TH0=0xff;
+  31   1        TL0=0xa4;
+  32   1        if(count<=timer1)
+  33   1          PWM=1;
+  34   1        else
+  35   1          PWM=0;
+  36   1        count++;
+  37   1        if(count>=200)//T=20ms
+  38   1          count=0;
+  39   1        TR0=1;
+  40   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     77    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

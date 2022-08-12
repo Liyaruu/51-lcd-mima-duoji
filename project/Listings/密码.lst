@@ -1,0 +1,19 @@
+C51 COMPILER V9.54   ____                                                                  08/07/2022 10:32:18 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE ____
+OBJECT MODULE PLACED IN .\Objects\УмТы.obj
+COMPILER INVOKED BY: d:\my file\download\C51\BIN\C51.EXE ..\source\УмТы.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\УмТы.lst) TABS(2) OBJECT(.\Objects\УмТы.obj)
+
+line level    source
+
+   1          #include "УмТы.h"
+*** ERROR C301 IN LINE 1 OF ..\source\УмТы.h: identifier expected
+*** WARNING C323 IN LINE 1 OF ..\source\УмТы.h: newline expected, extra characters found
+*** ERROR C301 IN LINE 2 OF ..\source\УмТы.h: identifier expected
+*** ERROR C305 IN LINE 2 OF ..\source\УмТы.h: unterminated string/char const
+*** WARNING C312 IN LINE 8 OF ..\source\УмТы.h: misplaced endif control
+   2          #include "main.h"
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  3 ERROR(S)

@@ -1,0 +1,286 @@
+C51 COMPILER V9.54   MIMA                                                                  08/10/2022 12:48:04 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MIMA
+OBJECT MODULE PLACED IN .\Objects\mima.obj
+COMPILER INVOKED BY: d:\my file\download\C51\BIN\C51.EXE ..\source\mima.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\mima.lst) TABS(2) OBJECT(.\Objects\mima.obj)
+
+line level    source
+
+   1          #include "main.h"
+   2          #include "mima.h"
+   3          #include "lcd.h"
+   4          
+   5          unsigned char wei,key,temp;
+   6          unsigned char oldStr[]={"000000"};
+   7          unsigned char newStr[]={"aaaaaa"};
+   8          unsigned char exStr[]={"------"};
+   9          bit allow,genggai,ok,wanbi,retry,close;
+  10          
+  11          void delay(unsigned char i)
+  12          {
+  13   1        uchar j,k;
+  14   1        for(j=i;j>0;j--)
+  15   1          for(k=125;k>0;k--);
+  16   1      }
+  17          
+  18          void keyscan()//扫描矩阵键盘
+  19          {
+  20   1        {
+  21   2          P3=0xfe;
+  22   2          temp=P3;
+  23   2          temp=temp&0xf0;
+  24   2          if(temp!=0xf0)
+  25   2          {
+  26   3            delay(10);
+  27   3            if(temp!=0xf0)
+  28   3            { 
+  29   4              temp=P3;
+  30   4              switch(temp)
+  31   4              {
+  32   5                case 0xee:
+  33   5                     key=0;
+  34   5               wei++;
+  35   5                     break;
+  36   5      
+  37   5                case 0xde:
+  38   5                     key=1;
+  39   5               wei++;
+  40   5                     break;
+  41   5      
+  42   5                case 0xbe:
+  43   5                     key=2;
+  44   5               wei++;
+  45   5                     break;
+  46   5      
+  47   5                case 0x7e:
+  48   5                     key=3;
+  49   5               wei++;
+  50   5                     break;
+  51   5               }
+  52   4               while(temp!=0xf0) 
+  53   4              {
+  54   5                 temp=P3;
+C51 COMPILER V9.54   MIMA                                                                  08/10/2022 12:48:04 PAGE 2   
+
+  55   5                 temp=temp&0xf0;
+  56   5               }
+  57   4            }
+  58   3          }
+  59   2          P3=0xfd;
+  60   2          temp=P3;
+  61   2          temp=temp&0xf0;
+  62   2          if(temp!=0xf0)
+  63   2          {
+  64   3            delay(10);
+  65   3            if(temp!=0xf0)
+  66   3            {
+  67   4              temp=P3;
+  68   4              switch(temp)
+  69   4              {
+  70   5                case 0xed:
+  71   5                     key=4;
+  72   5               wei++;
+  73   5                     break;
+  74   5      
+  75   5                case 0xdd:
+  76   5                     key=5;
+  77   5               wei++;
+  78   5                     break;
+  79   5      
+  80   5                case 0xbd:
+  81   5                     key=6;
+  82   5               wei++;
+  83   5                     break;
+  84   5      
+  85   5                case 0x7d:
+  86   5                     key=7;
+  87   5               wei++;
+  88   5                     break;
+  89   5               }
+  90   4               while(temp!=0xf0)
+  91   4               {
+  92   5                 temp=P3;
+  93   5                 temp=temp&0xf0;
+  94   5               }
+  95   4            }
+  96   3            }
+  97   2          P3=0xfb;
+  98   2          temp=P3;
+  99   2          temp=temp&0xf0;
+ 100   2          if(temp!=0xf0)
+ 101   2          {
+ 102   3            delay(10);
+ 103   3            if(temp!=0xf0)
+ 104   3            {
+ 105   4              temp=P3;
+ 106   4              switch(temp)
+ 107   4              {
+ 108   5                case 0xeb:
+ 109   5                     key=8;
+ 110   5               wei++;
+ 111   5                     break;
+ 112   5      
+ 113   5                case 0xdb:
+ 114   5                     key=9;
+ 115   5               wei++;
+ 116   5                     break;
+C51 COMPILER V9.54   MIMA                                                                  08/10/2022 12:48:04 PAGE 3   
+
+ 117   5               
+ 118   5                case 0xbb:
+ 119   5                     genggai=1; //S16更改
+ 120   5               wei=0;
+ 121   5                     break;
+ 122   5      
+ 123   5                case 0x7b:
+ 124   5                 if(allow)
+ 125   5                     ok=1;//S17为ok
+ 126   5                     break;
+ 127   5               }
+ 128   4              while(temp!=0xf0)
+ 129   4               {
+ 130   5                 temp=P3;
+ 131   5                 temp=temp&0xf0;
+ 132   5               }
+ 133   4            }
+ 134   3            }
+ 135   2          P3=0xf7;
+ 136   2          temp=P3;
+ 137   2          temp=temp&0xf0;
+ 138   2          if(temp!=0xf0)
+ 139   2          {
+ 140   3            delay(10);
+ 141   3            if(temp!=0xf0)
+ 142   3            {
+ 143   4              temp=P3;
+ 144   4              switch(temp)
+ 145   4              {
+ 146   5                case 0xe7:
+ 147   5                 retry=1;//S18重试
+ 148   5                     break;
+ 149   5      
+ 150   5                case 0xd7:
+ 151   5                 close=1; //S19关闭
+ 152   5                     break;
+ 153   5               }
+ 154   4              while(temp!=0xf0)
+ 155   4               {
+ 156   5                 temp=P3;
+ 157   5                 temp=temp&0xf0;
+ 158   5               }
+ 159   4            }
+ 160   3            }
+ 161   2      }
+ 162   1        }
+ 163          
+ 164            void shumima()    //对按键采集来的数据进行分配
+ 165          {
+ 166   1        if(!wanbi)
+ 167   1        {
+ 168   2        switch(wei)
+ 169   2        {
+ 170   3          case 1:newStr[0]=key+'0'; 
+ 171   3                if(!allow)
+ 172   3                {
+ 173   4                  exStr[0]='*';
+ 174   4                LCD1602_Dis_Str(0,1,exStr);
+ 175   4                }
+ 176   3               else 
+ 177   3               {
+ 178   4                 exStr[0]=key+'0';
+C51 COMPILER V9.54   MIMA                                                                  08/10/2022 12:48:04 PAGE 4   
+
+ 179   4                 LCD1602_Dis_Str(0,1,exStr);
+ 180   4               }
+ 181   3                 break;
+ 182   3          case 2:newStr[1]=key+'0';
+ 183   3              if(exStr[0]=='*')
+ 184   3              {
+ 185   4                exStr[1]='*';
+ 186   4                LCD1602_Dis_Str(0,1,exStr);
+ 187   4              }
+ 188   3              else 
+ 189   3              {
+ 190   4                exStr[1]=key+'0';
+ 191   4                LCD1602_Dis_Str(0,1,exStr);
+ 192   4              }
+ 193   3                break;
+ 194   3          case 3:newStr[2]=key+'0'; 
+ 195   3              if(exStr[0]=='*') 
+ 196   3              {
+ 197   4                exStr[2]='*';
+ 198   4                LCD1602_Dis_Str(0,1,exStr);
+ 199   4              }
+ 200   3              else 
+ 201   3              {
+ 202   4                exStr[2]=key+'0';
+ 203   4                LCD1602_Dis_Str(0,1,exStr);
+ 204   4              }
+ 205   3                break;
+ 206   3          case 4:newStr[3]=key+'0';
+ 207   3              if(exStr[0]=='*') 
+ 208   3              {
+ 209   4                 exStr[3]='*';
+ 210   4                LCD1602_Dis_Str(0,1,exStr);
+ 211   4              }
+ 212   3              else
+ 213   3              {
+ 214   4                exStr[3]=key+'0';
+ 215   4                LCD1602_Dis_Str(0,1,exStr);
+ 216   4              }
+ 217   3                break;
+ 218   3          case 5:newStr[4]=key+'0'; 
+ 219   3              if(exStr[0]=='*') 
+ 220   3              {
+ 221   4                exStr[4]='*';
+ 222   4                LCD1602_Dis_Str(0,1,exStr);
+ 223   4              }
+ 224   3              else 
+ 225   3              {
+ 226   4                exStr[4]=key+'0';
+ 227   4                LCD1602_Dis_Str(0,1,exStr);
+ 228   4              }
+ 229   3                break;
+ 230   3          case 6:newStr[5]=key+'0'; 
+ 231   3              if(exStr[0]=='*') 
+ 232   3              {
+ 233   4                exStr[5]='*';
+ 234   4                LCD1602_Dis_Str(0,1,exStr);
+ 235   4              }
+ 236   3              else 
+ 237   3              {
+ 238   4                exStr[5]=key+'0';
+ 239   4                LCD1602_Dis_Str(0,1,exStr);
+ 240   4              }
+C51 COMPILER V9.54   MIMA                                                                  08/10/2022 12:48:04 PAGE 5   
+
+ 241   3              wanbi=1;
+ 242   3              break;
+ 243   3        }
+ 244   2        }
+ 245   1      }
+ 246          void yanzheng()   //验证密码是否正确
+ 247          {
+ 248   1        if(wanbi)
+ 249   1        {
+ 250   2        if((oldStr[0]==newStr[0])&(oldStr[1]==newStr[1])&(oldStr[2]==newStr[2])&(oldStr[3]==newStr[3])&(oldStr[4]
+             -==newStr[4])&(oldStr[5]==newStr[5]))
+ 251   2        allow=1;
+ 252   2        }
+ 253   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    624    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     24    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
